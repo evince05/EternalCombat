@@ -101,7 +101,7 @@ public class SkeletonKnight extends LivingEntity {
 		attacking = false;
 		
 		// Sets the damage.
-		damage = 20;
+		damage = 32;
 		
 		speed = 1;
 		
@@ -426,7 +426,7 @@ public class SkeletonKnight extends LivingEntity {
 		int chance = random.nextInt(100) + 1;
 		if (chance <= 50) {
 			
-			// Creates and spawns a haste powerup.
+			// Creates and spawns a strength powerup.
 			Powerup strength = new Powerup(playState, posX + width / 2, posY + height - 16, 
 					PowerupType.STRENGTH);
 			playState.addPowerup(strength);

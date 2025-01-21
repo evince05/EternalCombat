@@ -3,6 +3,7 @@ package levels;
 import java.awt.Rectangle;
 import java.util.Random;
 
+import gameobjects.LivingEntity;
 import gameobjects.skeleton.ArcherSkeleton;
 import gameobjects.skeleton.Skeleton;
 import gameobjects.skeleton.SkeletonKnight;
@@ -21,7 +22,7 @@ public class LevelManager {
 	
 	// Level Variables and Multipliers
 	private static final double SPAWN_INTERVAL_DECREMENT = 0.375;
-	private static final double TOTAL_SKELETON_INCREMENENT = 10;
+	private static final double TOTAL_SKELETON_INCREMENENT = 2;
 	private static final int FINAL_UPDATE_LEVEL = 20;
 	
 	private int level;
@@ -51,11 +52,11 @@ public class LevelManager {
 		
 		// The default fields for level 1 are initialized.
 		this.level = 1;
-		this.totalSkeletons = 10;
+		this.totalSkeletons = 5;
 		this.remainingSkeletons = totalSkeletons;
 		this.aliveSkeletons = totalSkeletons;
 		
-		this.spawnInterval = 10.0;
+		this.spawnInterval = 7;
 		
 		this.lastSpawnTime = System.currentTimeMillis();
 		
@@ -212,42 +213,29 @@ public class LevelManager {
 			/**
 			 * Spawns a specific type of skeleton using a chance system.
 			 * Note:
-			 * Archers are introduced after level 5.s
-			 * Knights are introduced after level 10.
+			 * Archers are introduced after level 3
+			 * Knights are introduced after level 5.
 			 */
 			
 			Random generator = new Random();
 			int chance = generator.nextInt(100) + 1;
-				
-			if (chance <= 10 && level >= 5) {
-				
-				// Creates and spawns a skeleton archer.
-				ArcherSkeleton archer = new ArcherSkeleton(playState, 
-						posX, posY, 150, 150);
-				playState.addGameObject(archer);
-				remainingSkeletons--;
-				
+			
+			// Cleaned up the spawning code a bit.
+			LivingEntity enemy = null;
+			
+			if (level >= 5 && chance <= 15) {
+				enemy = new SkeletonKnight(playState, posX, posY, 250, 250);
 			}
-			else if (chance <= 1 && level >= 10) {
-				
-				// Creates and spawns a skeleton knight.
-				SkeletonKnight knight = new SkeletonKnight(playState,
-						posX, posY, 250, 250);
-				playState.addGameObject(knight);
-				remainingSkeletons--;
-				
+			else if (level >= 5 && chance <= 45 || level >= 3 && chance <= 30) {
+				enemy = new ArcherSkeleton(playState, posX, posY, 150, 150);
 			}
 			else {
-				// Creates and spawns a regular skeleton.
-				Skeleton skeleton = new Skeleton(playState, (int) 
-						posX, posY, 100, 100);
-				playState.addGameObject(skeleton);
-				remainingSkeletons--;
+				enemy = new Skeleton(playState, posX, posY, 100, 100);
 			}
 			
+			playState.addGameObject(enemy);
+			remainingSkeletons--;		
 		}
-		
-		
 	}
 	
 	/**

@@ -426,7 +426,7 @@ public class Skeleton extends LivingEntity {
 					PowerupType.HASTE);
 			playState.addPowerup(haste);
 		}
-		else if (chance <= 20) {
+		else if (chance <= 30) {
 			// A max health powerup spawns with a 20% chance.
 			
 			// Creates and spawns a max health powerup.
